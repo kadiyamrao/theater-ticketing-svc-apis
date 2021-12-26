@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.theater.ticketing.svc.apis.dao.entity.ScreenEntity;
 import com.theater.ticketing.svc.apis.dao.entity.ScreenSeatEntity;
@@ -21,7 +22,7 @@ public class ScreenService {
 	@Autowired
 	private ScreenSeatService screenSeatService;
 
-	
+	@Transactional
 	public void addForATheater(String theaterId, ScreenDTO screenDTO)
 	{
 		screenDTO.setTheaterId(theaterId);
