@@ -5,8 +5,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,9 +42,29 @@ public class TheaterShowService {
 
 	
 	public void add(TheaterShowDTO theaterShowDTO)
-	{		
+	{
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+	    Validator validator = factory.getValidator();
+	    Set<ConstraintViolation<TheaterShowDTO>> violations = validator.validate(theaterShowDTO);
+	    if (!violations.isEmpty()) {
+	    	System.err.println("ERROR");
+	      throw new ConstraintViolationException(violations);
+	    }
+		
 		TheaterShowEntity theaterShowEntity = new TheaterShowEntity(theaterShowDTO);
 		theaterShowRepository.save(theaterShowEntity);
+	}
+	
+	public void update(TheaterShowDTO theaterShowDTO)
+	{
+		TheaterShowEntity theaterShowEntity = new TheaterShowEntity(theaterShowDTO);
+		theaterShowRepository.save(theaterShowEntity);
+	}
+	
+	public void delete(String id)
+	{
+		TheaterShowEntity theaterShowEntity = theaterShowRepository.getById(id);
+		theaterShowRepository.delete(theaterShowEntity);
 	}
 	
 	public void setStatus(String id, String status)

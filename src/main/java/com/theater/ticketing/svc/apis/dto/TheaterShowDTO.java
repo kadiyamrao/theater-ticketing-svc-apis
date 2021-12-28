@@ -3,14 +3,21 @@ package com.theater.ticketing.svc.apis.dto;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
 import com.theater.ticketing.svc.apis.dao.entity.TheaterShowEntity;
 
 public class TheaterShowDTO {
 	private String id;
+	@NotNull
 	private String movieId;
+	@NotNull
 	private Date startDate;
+	@NotNull
 	private Date endDate;
+	@NotNull
 	private String startTime;
+	@NotNull
 	private String screenId;
 	private String status;
 	
