@@ -23,7 +23,7 @@ public class ScreenSeatEntity {
 	private String screenId;
 	
 	@Column(name="count")
-	private String count;
+	private Integer count;
 	
 	// active, inactive
 	@Column(name="status")
@@ -33,21 +33,12 @@ public class ScreenSeatEntity {
 		super();
 	}
 
-	public ScreenSeatEntity(String id, String seatType, String screenId, String count, String status) {
-		super();
-		this.id = id;
-		this.seatType = seatType;
-		this.screenId = screenId;
-		this.count = count;
-		this.status = status;
-	}
-
 	public ScreenSeatEntity(ScreenSeatDTO screenSeatDTO) {
 		super();
 		this.id = UUID.randomUUID().toString();
 		this.seatType = screenSeatDTO.getSeatType();
 		this.screenId = screenSeatDTO.getScreenId();
-		this.count = String.valueOf(screenSeatDTO.getCount());
+		this.count = Integer.valueOf(screenSeatDTO.getCount());
 		this.status = screenSeatDTO.getStatus();
 	}
 
@@ -76,11 +67,11 @@ public class ScreenSeatEntity {
 		this.screenId = screenId;
 	}
 
-	public String getCount() {
+	public Integer getCount() {
 		return count;
 	}
 
-	public void setCount(String count) {
+	public void setCount(Integer count) {
 		this.count = count;
 	}
 

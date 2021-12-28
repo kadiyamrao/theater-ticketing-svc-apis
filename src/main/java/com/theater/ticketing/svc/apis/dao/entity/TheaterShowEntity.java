@@ -1,5 +1,6 @@
 package com.theater.ticketing.svc.apis.dao.entity;
 
+import java.text.SimpleDateFormat;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -14,16 +15,18 @@ import com.theater.ticketing.svc.apis.dto.TheaterShowDTO;
 public class TheaterShowEntity {
 	
 	@Id
-//	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
 	
 	@Column(name="movie_id")
 	private String movieId;
 	
-	@Column(name="date")
-	private String date;
+	@Column(name="start_date")
+	private String startDate;
 	
-	@Column(name="start_time")
+	@Column(name="end_date")
+	private String endDate;
+	
+	@Column(name="show_time")
 	private String startTime;
 	
 	@Column(name="screen_id")
@@ -40,9 +43,12 @@ public class TheaterShowEntity {
 	
 	public TheaterShowEntity(TheaterShowDTO theaterShowDTO) {
 		super();
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-dd-MM");
 		this.id = UUID.randomUUID().toString();
 		this.movieId = theaterShowDTO.getMovieId();
-		this.date = theaterShowDTO.getDate();
+		this.startDate = formatter.format(theaterShowDTO.getStartDate());
+		this.endDate = formatter.format(theaterShowDTO.getEndDate());
 		this.startTime = theaterShowDTO.getStartTime();
 		this.screenId = theaterShowDTO.getScreenId();
 		this.status = "active";
@@ -64,12 +70,20 @@ public class TheaterShowEntity {
 		this.movieId = movieId;
 	}
 
-	public String getDate() {
-		return date;
+	public String getStartDate() {
+		return startDate;
 	}
 
-	public void setDate(String date) {
-		this.date = date;
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 
 	public String getStartTime() {

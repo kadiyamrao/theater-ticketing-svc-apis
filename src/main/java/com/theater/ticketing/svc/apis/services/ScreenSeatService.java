@@ -28,7 +28,7 @@ public class ScreenSeatService {
 	public void update(ScreenSeatDTO screenSeatDTO)
 	{
 		ScreenSeatEntity screenSeatEntity = screenSeatRepository.getById(screenSeatDTO.getId());
-		screenSeatEntity.setCount(String.valueOf(screenSeatDTO.getCount()));
+		screenSeatEntity.setCount(Integer.valueOf(screenSeatDTO.getCount()));
 		screenSeatEntity.setSeatType(screenSeatDTO.getSeatType());
 		screenSeatEntity.setStatus(screenSeatDTO.getStatus());
 		screenSeatRepository.save(screenSeatEntity);
@@ -50,4 +50,10 @@ public class ScreenSeatService {
 				.filter(screenSearEntity -> screenSearEntity.getScreenId().equals(screenId))
 				.map(ScreenSeatDTO::new).collect(Collectors.toList());
 	}
+
+	public int getSeatCountforAScreenAndSeatType(String screenId, String seatType)
+	{
+		return screenSeatRepository.getSeatCountforAScreenAndSeatType(screenId, seatType);
+	}
+	
 }

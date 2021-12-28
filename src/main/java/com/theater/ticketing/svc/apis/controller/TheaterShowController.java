@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.theater.ticketing.svc.apis.dto.TheaterRunningShowDTO;
 import com.theater.ticketing.svc.apis.dto.TheaterShowDTO;
 import com.theater.ticketing.svc.apis.services.TheaterShowService;
 
@@ -25,7 +27,7 @@ public class TheaterShowController {
 	private TheaterShowService theaterShowService;
 		
 	@PostMapping("/")
-	public ResponseEntity<TheaterShowDTO> addTheater(@RequestBody TheaterShowDTO theaterShowDTO) {
+	public ResponseEntity<TheaterShowDTO> addTheaterShow(@RequestBody TheaterShowDTO theaterShowDTO) {
 		try {
 			theaterShowService.add(theaterShowDTO);
 			return new ResponseEntity<>(theaterShowDTO, HttpStatus.CREATED);
@@ -67,6 +69,12 @@ public class TheaterShowController {
 		catch(Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	@GetMapping("/running-show")
+	public ResponseEntity<List<TheaterRunningShowDTO>> getShows(@RequestParam ("movieId") String movieId, 
+			@RequestParam ("city") String city, @RequestParam ("date") String movieDate) {		
+		return new ResponseEntity<>(theaterShowService.getAllTheaterShowsForMovieAndDateAfter(movieId, city, movieDate), HttpStatus.OK);
 	}
 	
 	@GetMapping("/")

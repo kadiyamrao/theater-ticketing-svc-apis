@@ -1,11 +1,15 @@
 package com.theater.ticketing.svc.apis.dto;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import com.theater.ticketing.svc.apis.dao.entity.TheaterShowEntity;
 
 public class TheaterShowDTO {
 	private String id;
 	private String movieId;
-	private String date;
+	private Date startDate;
+	private Date endDate;
 	private String startTime;
 	private String screenId;
 	private String status;
@@ -14,14 +18,26 @@ public class TheaterShowDTO {
 		super();
 	}
 	
-	public TheaterShowDTO(TheaterShowEntity theaterShowEntiry) {
+	public TheaterShowDTO(TheaterShowEntity theaterShowEntity) {
 		super();
-		this.id = theaterShowEntiry.getId();
-		this.movieId = theaterShowEntiry.getMovieId();
-		this.date = theaterShowEntiry.getDate();
-		this.startTime = theaterShowEntiry.getStartTime();
-		this.screenId = theaterShowEntiry.getScreenId();
-		this.status = theaterShowEntiry.getStatus();
+		this.id = theaterShowEntity.getId();
+		this.movieId = theaterShowEntity.getMovieId();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-dd-MM");
+		
+		try
+		{
+			this.startDate = sdf.parse(theaterShowEntity.getStartDate());
+			this.endDate = sdf.parse(theaterShowEntity.getEndDate());
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		this.startTime = theaterShowEntity.getStartTime();
+		this.screenId = theaterShowEntity.getScreenId();
+		this.status = theaterShowEntity.getStatus();
 	}
 
 	public String getId() {
@@ -40,12 +56,20 @@ public class TheaterShowDTO {
 		this.movieId = movieId;
 	}
 
-	public String getDate() {
-		return date;
+	public Date getStartDate() {
+		return startDate;
 	}
 
-	public void setDate(String date) {
-		this.date = date;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
 	public String getStartTime() {
