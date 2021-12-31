@@ -1,6 +1,5 @@
 package com.theater.ticketing.svc.apis.services;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -97,11 +96,7 @@ public class TheaterShowService {
 	// Return the list of shows running for a movie on & after the given date 
 	public List<TheaterRunningShowDTO> getAllTheaterShowsForMovieAndDateAfter(String movieId, String city, String date)
 	{
-		List<TheaterShowEntity> theaterShows = theaterShowRepository.findAll()
-				.stream().filter(
-						theaterShowEntity -> 
-							theaterShowEntity.getMovieId().equals(movieId)
-							&& isDateFallInBetween(theaterShowEntity.getStartDate(), theaterShowEntity.getEndDate(), date)).collect(Collectors.toList());
+		List<TheaterShowEntity> theaterShows = theaterShowRepository.getAllTheaterShowsInACityForMovieAndDate(movieId, city, date);
 		
 		List<TheaterRunningShowDTO> runningShows = new ArrayList<>();
 		
@@ -125,14 +120,4 @@ public class TheaterShowService {
 		return runningShows;		
 	}
 	
-	private static boolean isDateFallInBetween(String startDate, String endDate, String date)
-	{	
-		LocalDate startLocalDate = LocalDate.parse(startDate);
-		LocalDate endLocalDate = LocalDate.parse(endDate);
-		LocalDate localDate = LocalDate.parse(date);
-				
-		return startLocalDate.isEqual(localDate) || endLocalDate.isEqual(localDate) 
-				|| (localDate.isAfter(startLocalDate) && localDate.isBefore(endLocalDate));
-		
-	}
 }
